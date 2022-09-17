@@ -64,7 +64,7 @@ export default {
                 headers: { "API-KEY": "cDoog8B7yP04T9uJ" },
             });
 
-            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("token", response.data.detail.token);
             this.$router.push("/user");
         },
     },

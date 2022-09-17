@@ -25,7 +25,7 @@
                     </div>
                     <div class="change-address-bar">
                         <img src="https://cdn-icons-png.flaticon.com/512/8472/8472483.png" alt="" />
-                        <li>ที่อยู่จัดส่ง</li>
+                        <li><router-link to="/user/address">ที่อยู่จัดส่ง</router-link></li>
                     </div>
                     <div class="logout-bar">
                         <img src="https://cdn-icons-png.flaticon.com/512/3889/3889524.png" alt="" />
@@ -41,8 +41,18 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     name: "User",
+    async created() {
+        const response = await axios.get("user/profile", {
+            headers: {
+                "API-KEY": "cDoog8B7yP04T9uJ",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        });
+        console.log(response);
+    },
 };
 </script>
 

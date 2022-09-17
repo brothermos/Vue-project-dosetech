@@ -40,14 +40,42 @@
                     <h4>ที่อยู่จัดส่ง</h4>
                     <img src="https://cdn-icons-png.flaticon.com/512/59/59549.png" alt="" />
                 </div>
+                <div class="create-address-button">
+                    <button @click="$refs.ModalAddress.show()">สร้างที่อยู่ใหม่</button>
+                </div>
+
+                <!-- โชว์ข้อมูลที่อยู่ -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr class="text-center bg-primary text-light">
+                                    <th>รายละเอียดที่อยู่</th>
+                                    <th>แก้ไข</th>
+                                    <th>ลบ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center">
+                                    <td>เทส</td>
+                                    <td><a href="#">แก้ไข</a></td>
+                                    <td><a href="#">ลบ</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </b-col>
         </b-row>
+        <ModalAddress ref="ModalAddress" />
     </div>
 </template>
 
 <script>
+import ModalAddress from "../Modal/ModalAddress.vue";
 export default {
     name: "UserAddress",
+    components: { ModalAddress },
 };
 </script>
 
@@ -97,9 +125,16 @@ export default {
 
 .my-profile-bar img,
 .change-password-bar img,
-.change-address-bar img,
 .logout-bar img {
     margin-left: 25px;
+}
+
+.change-address-bar {
+    border-left: 5px solid #16274a;
+}
+
+.change-address-bar img {
+    margin-left: 21px;
 }
 
 a {
@@ -143,31 +178,14 @@ label {
     width: 84%;
     margin-left: 15px;
 }
-.detail-container1 {
+.create-address-button {
     display: flex;
-    margin-top: 20px;
-}
-
-.detail-container2 {
-    display: flex;
-    margin-top: 20px;
-}
-
-.detail-container1-password,
-.detail-container1-last,
-.detail-container2-newpassword,
-.detail-container2-confirmpassword {
-    display: flex;
-    flex-direction: column;
-}
-
-.detail-container1-password,
-.detail-container2-newpassword {
-    margin-right: 30px;
+    justify-content: right;
+    margin-right: 10px;
 }
 
 button {
-    margin-top: 50px;
+    margin-top: 10px;
     width: 15%;
     border: none;
     padding-top: 8px;

@@ -9,6 +9,8 @@ import User from "./components/User/User.vue";
 import UserProfile from "./components/User/UserProfile.vue";
 import UserChangePassword from "./components/User/UserChangePassword.vue";
 import UserAddress from "./components/User/UserAddress.vue";
+import ModalAddress from "./components/Modal/ModalAddress.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -22,5 +24,6 @@ export default new Router({
         { path: "/user/profile", component: UserProfile },
         { path: "/user/changepassword", component: UserChangePassword },
         { path: "/user/address", component: UserAddress },
+        { path: "/user/modaladdress", component: ModalAddress },
     ],
 });
