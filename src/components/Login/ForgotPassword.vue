@@ -27,14 +27,20 @@
 </template>
 
 <script>
-export default {};
+export default {
+    methods: {
+        submitForm() {
+            this.$router.push("/changepassword");
+        },
+    },
+};
 </script>
 
 <style scoped>
 .container {
     display: flex;
     justify-content: center;
-    margin-top: 325px
+    margin-top: 325px;
 }
 form {
     border: 1px solid #16274a;
@@ -82,7 +88,7 @@ a {
     display: flex;
 }
 
-img{
+img {
     width: 65%;
     height: 2.5rem;
     padding-left: 1rem;

@@ -4,10 +4,7 @@
             <!-- -->
             <div class="profile-header">
                 <h2>บัญชีผู้ใช้</h2>
-                <img
-                    src="https://cdn-icons-png.flaticon.com/512/59/59549.png"
-                    alt=""
-                />
+                <img src="https://cdn-icons-png.flaticon.com/512/59/59549.png" alt="" />
             </div>
 
             <!-- เมนู sidebar -->
@@ -17,43 +14,25 @@
                         <li>เมนู</li>
                     </div>
                     <div class="my-profile-bar">
-                        <img
-                            src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
-                            alt=""
-                        />
+                        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="" />
                         <li>
-                            <router-link to="/user/profile"
-                                >บัญชีของฉัน</router-link
-                            >
+                            <router-link to="/user/profile">บัญชีของฉัน</router-link>
                         </li>
                     </div>
                     <div class="change-password-bar">
-                        <img
-                            src="https://cdn-icons-png.flaticon.com/512/3064/3064155.png"
-                            alt=""
-                        />
+                        <img src="https://cdn-icons-png.flaticon.com/512/3064/3064155.png" alt="" />
                         <li>
-                            <router-link to="/user/changepassword"
-                                >เปลี่ยนรหัสผ่าน</router-link
-                            >
+                            <router-link to="/user/changepassword">เปลี่ยนรหัสผ่าน</router-link>
                         </li>
                     </div>
                     <div class="change-address-bar">
-                        <img
-                            src="https://cdn-icons-png.flaticon.com/512/8472/8472483.png"
-                            alt=""
-                        />
+                        <img src="https://cdn-icons-png.flaticon.com/512/8472/8472483.png" alt="" />
                         <li>
-                            <router-link to="/user/address"
-                                >ที่อยู่จัดส่ง</router-link
-                            >
+                            <router-link to="/user/address">ที่อยู่จัดส่ง</router-link>
                         </li>
                     </div>
                     <div class="logout-bar">
-                        <img
-                            src="https://cdn-icons-png.flaticon.com/512/3889/3889524.png"
-                            alt=""
-                        />
+                        <img src="https://cdn-icons-png.flaticon.com/512/3889/3889524.png" alt="" />
                         <li>ออกจากระบบ</li>
                     </div>
                 </div>
@@ -64,10 +43,7 @@
                 <!-- ส่วน header -->
                 <div class="form-detail-header">
                     <h4>บัญชีของฉัน</h4>
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/59/59549.png"
-                        alt=""
-                    />
+                    <img src="https://cdn-icons-png.flaticon.com/512/59/59549.png" alt="" />
                 </div>
 
                 <!-- ส่วน detail -->
@@ -75,16 +51,11 @@
                     <!-- container ก้อนที่ 1 ชื่อ-นามสกุล -->
                     <div class="detail-container1">
                         <div class="detail-container1-name">
-                            <label
-                                >ชื่อ <span class="text-danger">*</span> </label
-                            >
+                            <label>ชื่อ <span class="text-danger">*</span> </label>
                             <input type="text" placeholder="ชื่อ" />
                         </div>
                         <div class="detail-container1-last">
-                            <label
-                                >นามสกุล
-                                <span class="text-danger">*</span></label
-                            >
+                            <label>นามสกุล <span class="text-danger">*</span></label>
                             <input type="text" placeholder="นามสกุล" />
                         </div>
                     </div>
@@ -93,17 +64,12 @@
                     <div class="detail-container2">
                         <!-- อีเมล -->
                         <div class="detail-container2-email">
-                            <label
-                                >อีเมล <span class="text-danger">*</span></label
-                            >
+                            <label>อีเมล <span class="text-danger">*</span></label>
                             <input type="email" placeholder="อีเมล" />
                         </div>
                         <!-- เบอร์ -->
                         <div class="detail-container2-tel">
-                            <label
-                                >เบอร์โทรศัพท์
-                                <span class="text-danger">*</span></label
-                            >
+                            <label>เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
                             <input type="text" placeholder="เบอร์โทรศัพท์" />
                         </div>
                     </div>
@@ -112,35 +78,23 @@
                     <div class="detail-container3">
                         <!-- วันเกิด -->
                         <div class="detail-container3-birth">
-                            <label
-                                >วันเกิด
-                                <span class="text-danger">*</span></label
-                            >
+                            <label>วันเกิด <span class="text-danger">*</span></label>
                             <div class="birthday-date">
                                 <select name="day" id="day">
                                     <option value="0">วัน</option>
-                                    <option
-                                        v-for="(day, index) in 31"
-                                        :key="index"
-                                    >
+                                    <option v-for="(day, index) in 31" :key="index">
                                         {{ day }}
                                     </option>
                                 </select>
                                 <select name="month" id="month">
                                     <option value="0">เดือน</option>
-                                    <option
-                                        v-for="(month, index) in 12"
-                                        :key="index"
-                                    >
+                                    <option v-for="(month, index) in 12" :key="index">
                                         {{ month }}
                                     </option>
                                 </select>
                                 <select name="year" id="year">
                                     <option value="0">ปี</option>
-                                    <option
-                                        v-for="(year, index) in getYear()"
-                                        :key="index"
-                                    >
+                                    <option v-for="(year, index) in getYear()" :key="index">
                                         {{ year }}
                                     </option>
                                 </select>
@@ -149,9 +103,7 @@
 
                         <!-- เพศ -->
                         <div class="detail-container-gender">
-                            <label
-                                >เพศ <span class="text-danger">*</span></label
-                            >
+                            <label>เพศ <span class="text-danger">*</span></label>
                             <b-form-group v-slot="{ ariaDescribedby }">
                                 <b-form-radio-group
                                     v-model="selected"
@@ -165,6 +117,7 @@
                     </div>
                     <div class="button-style">
                         <button>บันทึก</button>
+                        {{ years }}
                     </div>
                 </form>
             </b-col>
@@ -173,17 +126,32 @@
 </template>
 
 <script>
-import axios from "axios";
+import { UserApiService } from "@/services/user-api.service";
+// import dayjs from "dayjs";
+
 export default {
     name: "UserProfile",
     data() {
         return {
+            userApiService: new UserApiService(),
             options: [
                 { text: "ชาย", value: "man" },
                 { text: "หญิง", value: "woman" },
-            ],  
+            ],
         };
-    },
+    }, 
+    // ใช้ dayjs //
+    // computed: {
+    //     years() {
+    //         const start = 1950;
+    //         const year = dayjs().year();
+    //         const diff = year - start + 1;
+
+    //         const years = Array.from(Array(diff).keys()).map((year) => year + start);
+
+    //         return years;
+    //     },
+    // },
     methods: {
         getYear() {
             let year = [];
@@ -193,15 +161,13 @@ export default {
             // console.log(year);
             return year;
         },
+        async getUser() {
+            const res = await this.userApiService.getUserProfile();
+            console.log("getuser", res);
+        },
     },
-    async created() {
-        const response = await axios.get("user/profile", {
-            headers: {
-                "API-KEY": "cDoog8B7yP04T9uJ",
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-        });
-        console.log(response);
+    created() {
+        this.getUser();
     },
 };
 </script>

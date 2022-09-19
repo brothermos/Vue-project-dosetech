@@ -56,8 +56,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="text-center">
-                                    <td>เทส</td>
+                                <tr
+                                    class="text-center"
+                                    v-for="(address, index) in addressList"
+                                    :key="index"
+                                >
+                                    <td>
+                                        {{ address.firstName }} {{ address.lastName }}
+                                        {{ address.street }} {{ address.province }}
+                                        {{ address.district }} {{ address.subDistrict }}
+                                        {{ address.zipCode }}
+                                    </td>
                                     <td><a href="#">แก้ไข</a></td>
                                     <td><a href="#">ลบ</a></td>
                                 </tr>
@@ -75,9 +84,28 @@
 
 <script>
 import ModalAddress from "../Modal/ModalAddress.vue";
+import { UserApiService } from "@/services/user-api.service";
 export default {
     name: "UserAddress",
     components: { ModalAddress },
+    data: () => ({
+        userApiService: new UserApiService(),
+        addressList: [],
+        filters: {
+            keyword: null,
+            page: 1,
+            limit: 10,
+        },
+    }),
+    methods: {
+        async getAddressList() {
+            const res = await this.userApiService.getAddresses(this.filters);
+            this.addressList = res.data.detail.userAddresses;
+        },
+    },
+    mounted() {
+        this.getAddressList();
+    },
 };
 </script>
 

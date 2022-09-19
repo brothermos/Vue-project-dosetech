@@ -1,96 +1,75 @@
 <template>
     <div class="m-md-auto">
-        <b-modal
-            id="modal-lg"
-            size="lg"
-            v-model="showModal"
-            hide-footer
-            hide-header
-            centered
-        >
+        <b-modal id="modal-lg" size="lg" v-model="showModal" hide-footer hide-header centered>
             <div class="main-container">
                 <div>
-                    <button
-                        type="button"
-                        aria-label="Close"
-                        class="close"
-                        @click="hide"
-                    >
-                        ×
-                    </button>
+                    <button type="button" aria-label="Close" class="close" @click="hide">×</button>
                 </div>
                 <div>
                     <div class="profile-header">
                         <h3>ที่อยู่จัดส่ง</h3>
                         <h4>─────────────────────────────────────</h4>
                     </div>
-                    <form>
+                    <form @submit.prevent="submitForm">
                         <!-- container ชื่อ-นามสกุล -->
                         <div class="detail-container1">
                             <div class="detail-container1-name">
-                                <label
-                                    >ชื่อ
-                                    <span class="text-danger">*</span></label
-                                >
-                                <input type="text" placeholder="ชื่อ" />
+                                <label>ชื่อ <span class="text-danger">*</span></label>
+                                <input type="text" placeholder="ชื่อ" v-model="form.firstName" />
                             </div>
                             <div class="detail-container1-last">
-                                <label
-                                    >นามสกุล
-                                    <span class="text-danger">*</span></label
-                                >
-                                <input type="text" placeholder="นามสกุล" />
+                                <label>นามสกุล <span class="text-danger">*</span></label>
+                                <input type="text" placeholder="นามสกุล" v-model="form.lastName" />
                             </div>
                         </div>
 
                         <!-- รายละเอียดที่อยู่ -->
                         <div class="detail-container2">
-                            <label
-                                >รายละเอียดที่อยู่
-                                <span class="text-danger">*</span></label
-                            >
+                            <label>รายละเอียดที่อยู่ <span class="text-danger">*</span></label>
                             <textarea
                                 name=""
                                 id=""
                                 cols="100%"
                                 rows="10"
                                 placeholder="รายละเอียดที่อยู่"
+                                v-model="form.street"
                             ></textarea>
                         </div>
 
                         <!-- จังหวัด-อำเภอ -->
                         <div class="detail-container3">
                             <div class="detail-container3-province">
-                                <label
-                                    >จังหวัด
-                                    <span class="text-danger">*</span></label
+                                <label>จังหวัด <span class="text-danger">*</span></label>
+                                <select
+                                    name="province"
+                                    id="province"
+                                    v-model="form.province"
+                                    @change="getDistrict(form.province)"
                                 >
-                                <select name="province" id="province">
-                                    <option :value="null" disabled>
-                                        กรุณาเลือกจังหวัด
-                                    </option>
+                                    <option :value="null" disabled>กรุณาเลือกจังหวัด</option>
                                     <option
                                         v-for="(province, index) in provinces"
                                         :key="index"
-                                        value="province"
+                                        :value="province"
                                     >
                                         {{ province }}
                                     </option>
                                 </select>
                             </div>
                             <div class="detail-container3-district">
-                                <label
-                                    >เขต/อำเภอ
-                                    <span class="text-danger">*</span></label
+                                <label>เขต/อำเภอ <span class="text-danger">*</span></label>
+                                <select
+                                    name="district"
+                                    id="district"
+                                    v-model="form.district"
+                                    @change="getSubDistrict(form.province)"
+                                    :disabled="!form.province"
                                 >
-                                <select name="district" id="district">
-                                    <option :value="null" disabled>
-                                        กรุณาเลือกอำเภอ
-                                    </option>
+                                    <option :value="null">กรุณาเลือกอำเภอ</option>
                                     <option
                                         v-for="(district, index) in districts"
                                         :key="index"
-                                        value="district"
+                                        :value="district"
                                     >
                                         {{ district }}
                                     </option>
@@ -101,30 +80,27 @@
                         <!-- ตำบล-รหัสไปรษณีย์ -->
                         <div class="detail-container4">
                             <div class="detail-container4-subdistrict">
-                                <label
-                                    >แขวง/ตำบล
-                                    <span class="text-danger">*</span></label
+                                <label>แขวง/ตำบล <span class="text-danger">*</span></label>
+                                <select
+                                    name="subdistrict"
+                                    id="subdistrict"
+                                    v-model="form.subDistrict"
                                 >
-                                <select name="subdistrict" id="subdistrict">
                                     <option
-                                        v-for="(
-                                            subDistrict, index
-                                        ) in subDistricts"
+                                        v-for="(subDistrict, index) in subDistricts"
                                         :key="index"
-                                        value="subDistrict"
+                                        :value="subDistrict"
                                     >
                                         {{ subDistrict }}
                                     </option>
                                 </select>
                             </div>
                             <div class="detail-container4-postnumber">
-                                <label
-                                    >รหัสไปรษณีย์
-                                    <span class="text-danger">*</span></label
-                                >
+                                <label>รหัสไปรษณีย์ <span class="text-danger">*</span></label>
                                 <input
                                     type="number"
                                     placeholder="รหัสไปรษณีย์"
+                                    v-model="form.zipCode"
                                 />
                             </div>
                         </div>
@@ -143,28 +119,54 @@
 
 <script>
 import axios from "axios";
+import { AddressApiService } from "@/services/address-api.service";
+import { UserApiService } from "@/services/user-api.service";
 export default {
     name: "ModalAddress",
-    data() {
-        return {
-            showModal: false,
-            provinces: [],
-            districts: [],
-            subDistricts: [],
-        };
-    },
+    data: () => ({
+        addressApiService: new AddressApiService(),
+        userApiService: new UserApiService(),
+        form: {
+            firstName: "",
+            lastName: "",
+            street: "",
+            province: "",
+            district: "",
+            subDistrict: "",
+            zipCode: "",
+        },
+        showModal: false,
+        provinces: [],
+        districts: [],
+        subDistricts: [],
+    }),
+    // data() {
+    //     return {
+    //         form: {
+    //             id:"",
+    //             firstName: "",
+    //             lastName: "",
+    //             street: "",
+    //             province: "",
+    //             district: "",
+    //             subDistrict: "",
+    //             postNumber: "",
+    //         },
+    //         showModal: false,
+    //         provinces: [],
+    //         districts: [],
+    //         subDistricts: [],
+    //     };
+    // },
     async created() {
-        const defaultProvince = await this.getProvince();
+        const defaultProvince = await this.getProvinces();
         if (defaultProvince === "") return;
 
-        const defaultDistrict = await this.getDistrict(defaultProvince);
-        console.log(defaultDistrict);
+        // const defaultDistrict = await this.getDistrict(defaultProvince);
+        // console.log(defaultDistrict);
 
-        const defaultSubDistrict = await this.getSubDistrict(
-            defaultProvince,
-            defaultDistrict
-        );
-        console.log(defaultSubDistrict);
+        // const defaultSubDistrict = await this.getSubDistrict(defaultProvince, defaultDistrict);
+        // console.log(defaultSubDistrict);
     },
     methods: {
         show() {
@@ -173,40 +175,48 @@ export default {
         hide() {
             this.showModal = false;
         },
-        async getProvince() {
-            const res = await axios.get(
-                "https://thaiaddressapi-thaikub.herokuapp.com/v1/thailand/provinces"
-            );
-            this.provinces = [...res.data.data.map((x) => x.province)];
+
+        // เลือกจังหวัด
+        async getProvinces() {
+            const res = await this.addressApiService.getProvinces();
+            this.provinces = res.data.data.map((x) => x.province);
             if (this.provinces.length < 0) {
                 return "";
             }
             return this.provinces[0];
         },
 
-        async getDistrict(province) {
+        // เลือกอำเภอ
+        async getDistrict() {
             const res = await axios.get(
-                `https://thaiaddressapi-thaikub.herokuapp.com/v1/thailand/provinces/${province}/district`
+                `https://thaiaddressapi-thaikub.herokuapp.com/v1/thailand/provinces/${this.form.province}/district`
             );
-            // clear current state
-            this.districts = [];
-            this.districts = [...res.data.data];
+
+            this.districts = res.data.data;
             if (this.districts.length < 0) {
                 return "";
             }
             return this.districts[0];
         },
 
-        async getSubDistrict(province, district) {
-            console.log(
-                "path:",
-                `https://thaiaddressapi-thaikub.herokuapp.com/v1/thailand/provinces/${province}/district/${district}`
-            );
+        //เลือกตำบล
+        async getSubDistrict() {
             const res = await axios.get(
-                `https://thaiaddressapi-thaikub.herokuapp.com/v1/thailand/provinces/${province}/district/${district}`
+                `https://thaiaddressapi-thaikub.herokuapp.com/v1/thailand/provinces/${this.form.province}/district/${this.form.district}`
             );
-            this.subDistricts = [];
-            this.subDistricts = [...res.data.data];
+            this.subDistricts = res.data.data;
+        },
+        async submitForm() {
+            const data = {
+                firstName: this.form.firstName,
+                lastName: this.form.lastName,
+                street: this.form.street,
+                province: this.form.province,
+                district: this.form.district,
+                subDistrict: this.form.subDistrict,
+                zipCode: this.form.zipCode,
+            };
+            await this.userApiService.createAddresses(data);
         },
     },
 };

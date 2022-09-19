@@ -36,6 +36,7 @@ export default {
 .container {
     display: flex;
     justify-content: center;
+    margin-top: 325px
 }
 form {
     border: 1px solid #16274a;

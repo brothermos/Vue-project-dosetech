@@ -73,7 +73,6 @@ export default {
                 password: this.password,
             };
             this.$emit("save", data);
-            // console.log(data);
             try {
                 const response = await axios.post("login", data, {
                     headers: { "API-KEY": "cDoog8B7yP04T9uJ" },

@@ -62,7 +62,7 @@
                         <!-- ยืนยันรหัสผ่าน -->
                         <div class="detail-container2-confirmpassword">
                             <label>ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
-                            <input type="password" placeholder="ยืนยันรหัสผ่าาน" />
+                            <input type="password" placeholder="ยืนยันรหัสผ่าน" />
                         </div>
                     </div>
 
@@ -78,6 +78,7 @@
 <script>
 export default {
     name: "UserChangePassword",
+    
 };
 </script>
 
