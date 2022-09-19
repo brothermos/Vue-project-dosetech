@@ -4,7 +4,10 @@
             <!-- -->
             <div class="profile-header">
                 <h2>บัญชีผู้ใช้</h2>
-                <img src="https://cdn-icons-png.flaticon.com/512/59/59549.png" alt="" />
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/59/59549.png"
+                    alt=""
+                />
             </div>
 
             <!-- เมนู sidebar -->
@@ -14,21 +17,43 @@
                         <li>เมนู</li>
                     </div>
                     <div class="my-profile-bar">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="" />
-                        <li><router-link to="/user/profile">บัญชีของฉัน</router-link></li>
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
+                            alt=""
+                        />
+                        <li>
+                            <router-link to="/user/profile"
+                                >บัญชีของฉัน</router-link
+                            >
+                        </li>
                     </div>
                     <div class="change-password-bar">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3064/3064155.png" alt="" />
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/3064/3064155.png"
+                            alt=""
+                        />
                         <li>
-                            <router-link to="/user/changepassword">เปลี่ยนรหัสผ่าน</router-link>
+                            <router-link to="/user/changepassword"
+                                >เปลี่ยนรหัสผ่าน</router-link
+                            >
                         </li>
                     </div>
                     <div class="change-address-bar">
-                        <img src="https://cdn-icons-png.flaticon.com/512/8472/8472483.png" alt="" />
-                        <li><router-link to="/user/address">ที่อยู่จัดส่ง</router-link></li>
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/8472/8472483.png"
+                            alt=""
+                        />
+                        <li>
+                            <router-link to="/user/address"
+                                >ที่อยู่จัดส่ง</router-link
+                            >
+                        </li>
                     </div>
                     <div class="logout-bar">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3889/3889524.png" alt="" />
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/3889/3889524.png"
+                            alt=""
+                        />
                         <li>ออกจากระบบ</li>
                     </div>
                 </div>
@@ -41,18 +66,10 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
     name: "User",
-    async created() {
-        const response = await axios.get("user/profile", {
-            headers: {
-                "API-KEY": "cDoog8B7yP04T9uJ",
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-        });
-        console.log(response);
-    },
+    
 };
 </script>
 

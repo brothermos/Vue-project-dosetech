@@ -67,7 +67,9 @@
                 </div>
             </b-col>
         </b-row>
-        <ModalAddress ref="ModalAddress" />
+        <div>
+            <ModalAddress ref="ModalAddress" />
+        </div>
     </div>
 </template>
 

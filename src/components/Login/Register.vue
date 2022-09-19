@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <form @submit.prevent="submitForm">
+            <!-- <error v-if="error" v-bind:error="error" /> -->
             <div class="close-icon">
                 <uil-times />
             </div>
@@ -8,7 +9,10 @@
                 <div class="header">
                     <div class="register-icon">
                         <h3>ลงทะเบียน</h3>
-                        <img src="https://cdn-icons-png.flaticon.com/512/59/59549.png" alt="" />
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/59/59549.png"
+                            alt=""
+                        />
                     </div>
                 </div>
             </div>
@@ -18,7 +22,10 @@
                 <label>อีเมล <span class="text-danger">*</span></label>
                 <input type="username" placeholder="อีเมล" v-model="username" />
                 <span
-                    v-if="(!$v.username.required || !$v.username.email) && $v.username.$dirty"
+                    v-if="
+                        (!$v.username.required || !$v.username.email) &&
+                        $v.username.$dirty
+                    "
                     class="text-danger"
                     >โปรดระบุ Email</span
                 >
@@ -27,27 +34,41 @@
             <!--กรอก password-->
             <div class="form-style">
                 <label>รหัสผ่าน <span class="text-danger">*</span></label>
-                <input type="password" placeholder="รหัสผ่าน" v-model="password" />
-                <span v-if="!$v.password.required && $v.password.$dirty" class="text-danger"
+                <input
+                    type="password"
+                    placeholder="รหัสผ่าน"
+                    v-model="password"
+                />
+                <span
+                    v-if="!$v.password.required && $v.password.$dirty"
+                    class="text-danger"
                     >โปรดระบุ Password</span
                 >
 
-                <span v-if="!$v.password.minLength && $v.password.$dirty" class="text-danger"
+                <span
+                    v-if="!$v.password.minLength && $v.password.$dirty"
+                    class="text-danger"
                     >รหัสผ่านควรมีความยาวไม่ต่ำกว่า
                     {{ $v.password.$params.minLength.min }} ตัวอักษร</span
                 >
                 <br />
                 <b-form-text id="password-help-block"
-                    >*รหัสผ่านจะต้องประกอบด้วยตัวอักษร a-z และ 1-9 ควรมีความยาวไม่ต่ำกว่า 6
-                    ตัว*</b-form-text
+                    >*รหัสผ่านจะต้องประกอบด้วยตัวอักษร a-z และ 1-9
+                    ควรมีความยาวไม่ต่ำกว่า 6 ตัว*</b-form-text
                 >
             </div>
 
             <!--confirm password-->
             <div class="form-style">
                 <label>ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
-                <input type="password" placeholder="ยืนยันรหัสผ่าน" v-model="password_confirm" />
-                <span v-if="!$v.password_confirm.sameAsPassword" class="text-danger"
+                <input
+                    type="password"
+                    placeholder="ยืนยันรหัสผ่าน"
+                    v-model="password_confirm"
+                />
+                <span
+                    v-if="!$v.password_confirm.sameAsPassword"
+                    class="text-danger"
                     >รหัสผ่านไม่ตรงกัน</span
                 >
             </div>
@@ -102,7 +123,8 @@
                     value="true"
                     unchecked-value="false"
                 >
-                    ยอมรับข้อกำหนดและเงื่อนไขในการใช้งาน <a href="">เพิ่มเติม</a>
+                    ยอมรับข้อกำหนดและเงื่อนไขในการใช้งาน
+                    <a href="">เพิ่มเติม</a>
                 </b-form-checkbox>
             </div>
 
@@ -122,10 +144,11 @@
 import { UilTimes } from "@iconscout/vue-unicons";
 import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
 import axios from "axios";
-
+// import Error from "../Error/Error.vue";
 export default {
     name: "Register",
     components: {
+        // Error,
         UilTimes,
     },
     data() {
@@ -142,6 +165,7 @@ export default {
                 { text: "หญิง", value: "woman" },
             ],
             status: false,
+            error: "",
         };
     },
     validations: {
@@ -177,6 +201,7 @@ export default {
             console.log(data);
 
             // axios ยิง api
+
             await axios.post("register", data, {
                 headers: { "API-KEY": "cDoog8B7yP04T9uJ" },
             });

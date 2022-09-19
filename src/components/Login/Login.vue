@@ -1,16 +1,22 @@
 <template>
     <div class="container">
         <form @submit.prevent="submitForm">
+            <error v-if="error" v-bind:error="error" /> 
             <div class="form-style">
                 <div class="login-icon">
                     <h3>เข้าสู่ระบบ</h3>
-                    <img src="https://cdn-icons-png.flaticon.com/512/59/59549.png" alt="" />
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/512/59/59549.png"
+                        alt=""
+                    />  
                 </div>
             </div>
 
             <!-- login_username -->
             <div class="form-style">
-                <label for="login-username-input">อีเมล <span class="text-danger">*</span></label>
+                <label for="login-username-input"
+                    >อีเมล <span class="text-danger">*</span></label
+                >
                 <input type="email" placeholder="อีเมล" v-model="username" />
             </div>
 
@@ -19,7 +25,11 @@
                 <label for="login-password-input"
                     >รหัสผ่าน <span class="text-danger">*</span></label
                 >
-                <input type="password" placeholder="รหัสผ่าน" v-model="password" />
+                <input
+                    type="password"
+                    placeholder="รหัสผ่าน"
+                    v-model="password"
+                />
             </div>
 
             <!-- Forgot_password -->
@@ -43,12 +53,17 @@
 
 <script>
 import axios from "axios";
+import Error from "../Error/Error.vue";
 export default {
     name: "Login",
+    components: {
+        Error,
+    },
     data() {
         return {
             username: "",
             password: "",
+            error: "",
         };
     },
     methods: {
@@ -59,13 +74,16 @@ export default {
             };
             this.$emit("save", data);
             // console.log(data);
+            try {
+                const response = await axios.post("login", data, {
+                    headers: { "API-KEY": "cDoog8B7yP04T9uJ" },
+                });
 
-            const response = await axios.post("login", data, {
-                headers: { "API-KEY": "cDoog8B7yP04T9uJ" },
-            });
-
-            localStorage.setItem("token", response.data.detail.token);
-            this.$router.push("/user");
+                localStorage.setItem("token", response.data.detail.token);
+                this.$router.push("/user");
+            } catch (e) {
+                this.error = "อีเมล/รหัสผ่านไม่ถูกต้อง";
+            }
         },
     },
 };
