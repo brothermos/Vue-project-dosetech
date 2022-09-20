@@ -1,14 +1,14 @@
 <template>
     <div class="container">
         <form @submit.prevent="submitForm">
-            <error v-if="error" v-bind:error="error" /> 
+            <error v-if="error" v-bind:error="error" />
             <div class="form-style">
                 <div class="login-icon">
                     <h3>เข้าสู่ระบบ</h3>
                     <img
                         src="https://cdn-icons-png.flaticon.com/512/59/59549.png"
                         alt=""
-                    />  
+                    />
                 </div>
             </div>
 

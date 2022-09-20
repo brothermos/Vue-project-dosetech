@@ -12,7 +12,10 @@ export class UserApiService {
         this.http.interceptors.request.use(
             (config) => {
                 const token = localStorage.getItem("token");
-                const headers = { Authorization: `Bearer ${token}`, "API-KEY": USER_API_TOKEN };
+                const headers = {
+                    Authorization: `Bearer ${token}`,
+                    "API-KEY": USER_API_TOKEN,
+                };
 
                 config.headers = headers;
 
@@ -22,6 +25,10 @@ export class UserApiService {
         );
         // this.http.interceptors.response
     }
+    async login(data) {
+        return this.http.post("/login", data);
+    }
+
     async register(data) {
         return this.http.post("/register", data);
     }

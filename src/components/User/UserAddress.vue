@@ -4,7 +4,10 @@
             <!-- -->
             <div class="profile-header">
                 <h2>บัญชีผู้ใช้</h2>
-                <img src="https://cdn-icons-png.flaticon.com/512/59/59549.png" alt="" />
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/59/59549.png"
+                    alt=""
+                />
             </div>
 
             <!-- เมนู sidebar -->
@@ -14,21 +17,39 @@
                         <li>เมนู</li>
                     </div>
                     <div class="my-profile-bar">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="" />
-                        <li><router-link to="/user/profile">บัญชีของฉัน</router-link></li>
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
+                            alt=""
+                        />
+                        <li>
+                            <router-link to="/user/profile"
+                                >บัญชีของฉัน</router-link
+                            >
+                        </li>
                     </div>
                     <div class="change-password-bar">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3064/3064155.png" alt="" />
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/3064/3064155.png"
+                            alt=""
+                        />
                         <li>
-                            <router-link to="/user/changepassword">เปลี่ยนรหัสผ่าน</router-link>
+                            <router-link to="/user/changepassword"
+                                >เปลี่ยนรหัสผ่าน</router-link
+                            >
                         </li>
                     </div>
                     <div class="change-address-bar">
-                        <img src="https://cdn-icons-png.flaticon.com/512/8472/8472483.png" alt="" />
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/8472/8472483.png"
+                            alt=""
+                        />
                         <li>ที่อยู่จัดส่ง</li>
                     </div>
                     <div class="logout-bar">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3889/3889524.png" alt="" />
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/3889/3889524.png"
+                            alt=""
+                        />
                         <li>ออกจากระบบ</li>
                     </div>
                 </div>
@@ -38,10 +59,15 @@
             <b-col cols="8" class="form-my-address">
                 <div class="form-detail-header">
                     <h4>ที่อยู่จัดส่ง</h4>
-                    <img src="https://cdn-icons-png.flaticon.com/512/59/59549.png" alt="" />
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/512/59/59549.png"
+                        alt=""
+                    />
                 </div>
                 <div class="create-address-button">
-                    <button @click="$refs.ModalAddress.show()">สร้างที่อยู่ใหม่</button>
+                    <button @click="$refs.ModalAddress.show()">
+                        สร้างที่อยู่ใหม่
+                    </button>
                 </div>
 
                 <!-- โชว์ข้อมูลที่อยู่ -->
@@ -62,9 +88,12 @@
                                     :key="index"
                                 >
                                     <td>
-                                        {{ address.firstName }} {{ address.lastName }}
-                                        {{ address.street }} {{ address.province }}
-                                        {{ address.district }} {{ address.subDistrict }}
+                                        {{ address.firstName }}
+                                        {{ address.lastName }}
+                                        {{ address.street }}
+                                        {{ address.province }}
+                                        {{ address.district }}
+                                        {{ address.subDistrict }}
                                         {{ address.zipCode }}
                                     </td>
                                     <td><a href="#">แก้ไข</a></td>
@@ -103,7 +132,12 @@ export default {
             this.addressList = res.data.detail.userAddresses;
         },
     },
-    mounted() {
+    // watch: {
+    //     addressList() {
+    //         this.getAddressList();
+    //     },
+    // },
+    created() {
         this.getAddressList();
     },
 };
