@@ -45,4 +45,8 @@ export class UserApiService {
     async createAddresses(payload) {
         return this.http.post("/useraddress", payload);
     }
+
+    async deleteAddress(id) {
+        return this.http.delete(`/useraddress/${id}`, id);
+    }
 }
