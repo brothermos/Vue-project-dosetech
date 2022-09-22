@@ -41,11 +41,15 @@ export class UserApiService {
     async getUserProfile() {
         return this.http.get("/user/profile");
     }
-
+    // async updateUserProfile(form){
+    //     return this.http.put("/user",form)
+    // }
     async createAddresses(payload) {
         return this.http.post("/useraddress", payload);
     }
-
+    async updateAddress(payload){
+        return this.http.put("/useraddress",payload)
+    }
     async deleteAddress(id) {
         return this.http.delete(`/useraddress/${id}`, id);
     }
