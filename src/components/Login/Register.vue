@@ -176,8 +176,7 @@ export default {
                 email,
             },
             password: {
-                required,
-                // alpha,
+                required,               
                 minLength: minLength(6),
                 passwordRegex,
             },
@@ -204,10 +203,11 @@ export default {
             console.log(this.form);
 
             // method validate
-            // this.$v.form.$touch();
-            // if (this.$v.form.$error) {
-            //     return;
-            // }
+            this.$v.form.$touch();
+            if (this.$v.form.$error) {
+                return;
+            }
+
             //ยิง axios
             await this.userApiService.register(this.form);
             this.$router.push("/login");
