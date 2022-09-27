@@ -94,6 +94,7 @@
                                     name="subdistrict"
                                     id="subdistrict"
                                     v-model="form.subDistrict"
+                                    :disabled="!form.province || !form.district"
                                 >
                                     <option
                                         v-for="(subDistrict, index) in subDistricts"
@@ -228,6 +229,11 @@ export default {
 
             this.getAddressList();
             this.resetForm();
+
+            this.$v.form.$touch();
+            if (this.$v.form.$error) {
+                return;
+            }
         },
 
         // resetform หลังจาก submit

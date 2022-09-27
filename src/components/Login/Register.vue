@@ -1,329 +1,370 @@
 <template>
-    <div class="container">
-        <form @submit.prevent="submitForm">
-            <!-- <error v-if="error" v-bind:error="error" /> -->
-            <div class="close-icon">
-                <uil-times />
+   <div class="container">
+      <form @submit.prevent="submitForm">
+         <!-- <error v-if="error" v-bind:error="error" /> -->
+         <div class="close-icon">
+            <uil-times />
+         </div>
+         <div class="form-style">
+            <div class="header">
+               <div class="register-icon">
+                  <h3>ลงทะเบียน</h3>
+                  <img
+                     src="https://cdn-icons-png.flaticon.com/512/59/59549.png"
+                     alt=""
+                  />
+               </div>
             </div>
-            <div class="form-style">
-                <div class="header">
-                    <div class="register-icon">
-                        <h3>ลงทะเบียน</h3>
-                        <img src="https://cdn-icons-png.flaticon.com/512/59/59549.png" alt="" />
-                    </div>
-                </div>
-            </div>
+         </div>
 
-            <!--กรอก username-->
-            <div class="form-style">
-                <label>อีเมล <span class="text-danger">*</span></label>
-                <input type="username" placeholder="อีเมล" v-model="form.username" />
-                <div
-                    class="text-danger"
-                    v-if="!$v.form.username.required || !$v.form.username.email"
-                >
-                    โปรดระบุ Email
-                </div>
+         <!--กรอก username-->
+         <div class="form-style">
+            <label>อีเมล <span class="text-danger">*</span></label>
+            <input
+               type="username"
+               placeholder="อีเมล"
+               v-model="form.username"
+            />
+            <div
+               class="text-danger"
+               v-if="!$v.form.username.required || !$v.form.username.email"
+            >
+               โปรดระบุ Email
             </div>
+         </div>
 
-            <!--กรอก password-->
-            <div class="form-style">
-                <label>รหัสผ่าน <span class="text-danger">*</span></label>
-                <input type="password" placeholder="รหัสผ่าน" v-model="form.password" />
-                <span
-                    v-if="!$v.form.password.required && $v.form.password.$dirty"
-                    class="text-danger"
-                    >โปรดระบุ Password</span
-                >
+         <!--กรอก password-->
+         <div class="form-style">
+            <label>รหัสผ่าน <span class="text-danger">*</span></label>
+            <input
+               type="password"
+               placeholder="รหัสผ่าน"
+               v-model="form.password"
+            />
+            <span
+               v-if="!$v.form.password.required && $v.form.password.$dirty"
+               class="text-danger"
+               >โปรดระบุ Password</span
+            >
 
-                <span
-                    v-if="
-                        !$v.form.password.minLength &&
-                        !$v.form.password.passwordRegex &&
-                        $v.form.password.$dirty
-                    "
-                    class="text-danger"
-                    >รหัสผ่านควรมีความยาวไม่ต่ำกว่า
-                    {{ $v.form.password.$params.minLength.min }} ตัวอักษร</span
-                >
-                <br />
-                <b-form-text id="password-help-block"
-                    >*รหัสผ่านจะต้องประกอบด้วยตัวอักษร a-z และ 1-9 ควรมีความยาวไม่ต่ำกว่า 6
-                    ตัว*</b-form-text
-                >
+            <span
+               v-if="
+                  !$v.form.password.minLength &&
+                  !$v.form.password.passwordRegex &&
+                  $v.form.password.$dirty
+               "
+               class="text-danger"
+               >รหัสผ่านควรมีความยาวไม่ต่ำกว่า
+               {{ $v.form.password.$params.minLength.min }} ตัวอักษร</span
+            >
+            <br />
+            <b-form-text id="password-help-block"
+               >*รหัสผ่านจะต้องประกอบด้วยตัวอักษร a-z และ 1-9
+               ควรมีความยาวไม่ต่ำกว่า 6 ตัว*</b-form-text
+            >
+         </div>
+
+         <!--confirm password-->
+         <div class="form-style">
+            <label>ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
+            <input
+               type="password"
+               placeholder="ยืนยันรหัสผ่าน"
+               v-model="form.password_confirm"
+            />
+            <span
+               v-if="!$v.form.password_confirm.sameAsPassword"
+               class="text-danger"
+               >รหัสผ่านไม่ตรงกัน</span
+            >
+         </div>
+
+         <!--วันเกิด-->
+         <div class="form-style">
+            <label>วันเกิด <span class="text-danger">*</span></label>
+            <div class="birthday-date">
+               <select name="day" id="day" v-model="form.day">
+                  <option value="0">วัน</option>
+                  <option v-for="(day, index) in 31" :key="index">
+                     {{ day }}
+                  </option>
+               </select>
+               <select name="month" id="month" v-model="form.month">
+                  <option value="0">เดือน</option>
+                  <option v-for="(month, index) in 12" :key="index">
+                     {{ month }}
+                  </option>
+               </select>
+               <select name="year" id="year" v-model="form.year">
+                  <option value="0">ปี</option>
+                  <option v-for="(year, index) in getYear()" :key="index">
+                     {{ year }}
+                  </option>
+               </select>
             </div>
+         </div>
 
-            <!--confirm password-->
-            <div class="form-style">
-                <label>ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
-                <input
-                    type="password"
-                    placeholder="ยืนยันรหัสผ่าน"
-                    v-model="form.password_confirm"
-                />
-                <span v-if="!$v.form.password_confirm.sameAsPassword" class="text-danger"
-                    >รหัสผ่านไม่ตรงกัน</span
-                >
+         <!--เพศ-->
+         <div class="form-style">
+            <div class="gender-style">
+               <label>เพศ *</label>
+               <b-form-group v-slot="{ ariaDescribedby }">
+                  <b-form-radio-group
+                     v-model="form.gender"
+                     :options="options"
+                     :aria-describedby="ariaDescribedby"
+                     name="plain-inline"
+                     plain
+                  ></b-form-radio-group>
+               </b-form-group>
             </div>
+         </div>
 
-            <!--วันเกิด-->
-            <div class="form-style">
-                <label>วันเกิด <span class="text-danger">*</span></label>
-                <div class="birthday-date">
-                    <select name="day" id="day" v-model="form.day">
-                        <option value="0">วัน</option>
-                        <option v-for="(day, index) in 31" :key="index">
-                            {{ day }}
-                        </option>
-                    </select>
-                    <select name="month" id="month" v-model="form.month">
-                        <option value="0">เดือน</option>
-                        <option v-for="(month, index) in 12" :key="index">
-                            {{ month }}
-                        </option>
-                    </select>
-                    <select name="year" id="year" v-model="form.year">
-                        <option value="0">ปี</option>
-                        <option v-for="(year, index) in getYear()" :key="index">
-                            {{ year }}
-                        </option>
-                    </select>
-                </div>
-            </div>
+         <!--ยอมรับเงื่อนไข-->
+         <div class="form-style">
+            <b-form-checkbox
+               id="checkbox-1"
+               v-model="form.status"
+               name="checkbox-1"
+               value="true"
+               unchecked-value="false"
+            >
+               ยอมรับข้อกำหนดและเงื่อนไขในการใช้งาน
+               <a href="">เพิ่มเติม</a>
+            </b-form-checkbox>
+            <span
+               v-if="!$v.form.status.required && $v.form.status.$dirty"
+               class="text-danger"
+               >โปรดยอมรับเงื่อนไข</span
+            >
+         </div>
 
-            <!--เพศ-->
-            <div class="form-style">
-                <div class="gender-style">
-                    <label>เพศ *</label>
-                    <b-form-group v-slot="{ ariaDescribedby }">
-                        <b-form-radio-group
-                            v-model="form.gender"
-                            :options="options"
-                            :aria-describedby="ariaDescribedby"
-                            name="plain-inline"
-                            plain
-                        ></b-form-radio-group>
-                    </b-form-group>
-                </div>
+         <!--ปุ่มลงทะเบียน-->
+         <div class="form-style">
+            <b-button
+               >ลงทะเบียน</b-button
+            >
+            <div class="register-container">
+               <b-form-text>เป็นสมาชิกแล้ว?</b-form-text>
+               <router-link to="/login">เข้าสู่ระบบ</router-link>
             </div>
-
-            <!--ยอมรับเงื่อนไข-->
-            <div class="form-style">
-                <b-form-checkbox
-                    id="checkbox-1"
-                    v-model="form.status"
-                    name="checkbox-1"
-                    value="true"
-                    unchecked-value="false"
-                >
-                    ยอมรับข้อกำหนดและเงื่อนไขในการใช้งาน
-                    <a href="">เพิ่มเติม</a>
-                </b-form-checkbox>
-                <span v-if="!$v.form.status.required && $v.form.status.$dirty" class="text-danger"
-                    >โปรดยอมรับเงื่อนไข</span
-                >
-            </div>
-
-            <!--ปุ่มลงทะเบียน-->
-            <div class="form-style">
-                <button>ลงทะเบียน</button>
-                <div class="register-container">
-                    <b-form-text>เป็นสมาชิกแล้ว?</b-form-text>
-                    <router-link to="/login">เข้าสู่ระบบ</router-link>
-                </div>
-            </div>
-        </form>
-    </div>
+         </div>
+      </form>
+      
+   </div>
 </template>
 
 <script>
 import { UilTimes } from "@iconscout/vue-unicons";
-import { required, minLength, email, sameAs, helpers } from "vuelidate/lib/validators";
+import {
+   required,
+   minLength,
+   email,
+   sameAs,
+   helpers,
+} from "vuelidate/lib/validators";
 import { UserApiService } from "@/services/user-api.service";
 import moment from "moment";
 
-const passwordRegex = helpers.regex("passwordRegex", /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/); // import Error from "../Error/Error.vue";
+const passwordRegex = helpers.regex(
+   "passwordRegex",
+   /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
+); // import Error from "../Error/Error.vue";
+
+
 export default {
-    name: "Register",
-    components: {
-        // Error,
-        UilTimes,
-    },
-    data: () => ({
-        userApiService: new UserApiService(),
-        form: {
-            username: "",
-            password: "",
-            password_confirm: "",
-            gender: "man",
-            day: "0",
-            month: "0",
-            year: "0",
-            birthday: "",
-            telephone: "",
-        },
-        options: [
-            { text: "ชาย", value: "man" },
-            { text: "หญิง", value: "woman" },
-        ],
-        status: false,
-        error: "",
-    }),
-    validations: {
-        form: {
-            username: {
-                required,
-                email,
-            },
-            password: {
-                required,               
-                minLength: minLength(6),
-                passwordRegex,
-            },
-            password_confirm: {
-                required,
-                sameAsPassword: sameAs("password"),
-                passwordRegex,
-            },
-            status: {
-                required,
-            },
-        },
-    },
-    methods: {
-        async submitForm() {
-            // format ค่าวันเกิด
-            const birthday = moment(
-                this.form.day + "/" + this.form.month + 1 + "/" + this.form.year,
-                "D/M/YYYY"
-            ).format();
-            console.log("birthday", birthday);
+   name: "Register",
+   components: {
+      // Error,
+      UilTimes,
+   },
+   data: () => ({
+      userApiService: new UserApiService(),
+      form: {
+         username: "",
+         password: "",
+         password_confirm: "",
+         gender: "man",
+         day: "0",
+         month: "0",
+         year: "0",
+         birthday: "",
+         telephone: "",
+      },
+      options: [
+         { text: "ชาย", value: "man" },
+         { text: "หญิง", value: "woman" },
+      ],
+      status: false,
+      error: "",
+   }),
+   validations: {
+      form: {
+         username: {
+            required,
+            email,
+         },
+         password: {
+            required,
+            minLength: minLength(6),
+            passwordRegex,
+         },
+         password_confirm: {
+            required,
+            sameAsPassword: sameAs("password"),
+            passwordRegex,
+         },
+         status: {
+            required,
+         },
+      },
+   },
+   methods: {
+      async submitForm() {
+         // format ค่าวันเกิด
+         const birthday = moment(
+            this.form.day + "/" + this.form.month + 1 + "/" + this.form.year,
+            "D/M/YYYY"
+         ).format();
+         console.log("birthday", birthday);
 
-            this.form.birthday = birthday;
-            console.log(this.form);
+         this.form.birthday = birthday;
+         console.log(this.form);
 
-            // method validate
-            this.$v.form.$touch();
-            if (this.$v.form.$error) {
-                return;
-            }
+         // method validate
+         this.$v.form.$touch();
+         if (this.$v.form.$error) {
+            return;
+         }
 
-            //ยิง axios
-            await this.userApiService.register(this.form);
-            this.$router.push("/login");
-        },
+         //ยิง axios
+         await this.userApiService.register(this.form);
+         this.$router.push("/login");
+      },
 
-        // fucntion ปี
-        getYear() {
-            let year = [];
-            for (let i = 1950; i <= 2022; i++) {
-                year.push(i);
-            }
-            // console.log(year);
-            return year;
-        },
-    },
-    created() {
-        this.submitted = true;
-        return this.$v.$touch();
-    },
-    computed: {
-        isDisabled() {
-            return this.$v.$invalid;
-        },
-    },
+      // fucntion ปี
+      getYear() {
+         let year = [];
+         for (let i = 1950; i <= 2022; i++) {
+            year.push(i);
+         }
+         // console.log(year);
+         return year;
+      },
+
+      
+
+      //alert success register
+      makeToast(variant = null) {
+         this.$bvToast.toast("Register", {
+            title: `Register ${variant || "default"}`,
+            variant: variant,
+            solid: true,
+         });
+      },
+   },
+
+   created() {
+      this.submitted = true;
+      return this.$v.$touch();
+   },
+   computed: {
+      isDisabled() {
+         return this.$v.$invalid;
+      },
+   },
 };
 </script>
 
 <style scoped>
 * {
-    box-sizing: border-box;
+   box-sizing: border-box;
 }
 
 .container {
-    margin-top: 140px;
-    border: 1px solid #16274a;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    width: 400px;
-    background-color: white;
-    display: flex;
-    justify-content: center;
+   margin-top: 140px;
+   border: 1px solid #16274a;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+   width: 400px;
+   background-color: white;
+   display: flex;
+   justify-content: center;
 }
 
 form {
-    padding: 5px 20px;
+   padding: 5px 20px;
 }
 
 .form-style {
-    position: relative;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
+   position: relative;
+   margin-bottom: 10px;
+   padding-bottom: 10px;
 }
 
 .form-style label {
-    display: block;
+   display: block;
 }
 
 .form-style input {
-    width: 100%;
-    padding: 5px 5px;
+   width: 100%;
+   padding: 5px 5px;
 }
 .close-icon {
-    text-align: right;
-    margin-top: 1rem;
+   text-align: right;
+   margin-top: 1rem;
 }
 
 .birthday-date {
-    display: flex;
-    justify-content: space-around;
+   display: flex;
+   justify-content: space-around;
 }
 
 .birthday-date select {
-    width: 100%;
-    padding: 5px 0;
+   width: 100%;
+   padding: 5px 0;
 }
 
 #day,
 #month {
-    margin-right: 15px;
+   margin-right: 15px;
 }
 
 .gender-style {
-    display: flex;
+   display: flex;
 }
 
 .gender-style label {
-    padding-right: 15px;
+   padding-right: 15px;
 }
 
 button {
-    width: 100%;
-    border: none;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    background-color: #16274a;
-    color: white;
+   width: 100%;
+   border: none;
+   padding-top: 8px;
+   padding-bottom: 8px;
+   background-color: #16274a;
+   color: white;
 }
 
 a {
-    color: black;
+   color: black;
 }
 
 .register-container {
-    display: flex;
-    justify-content: center;
+   display: flex;
+   justify-content: center;
 }
 
 .register-container a {
-    padding-left: 10px;
+   padding-left: 10px;
 }
 
 .register-icon {
-    display: flex;
+   display: flex;
 }
 img {
-    width: 68%;
-    height: 2.5rem;
-    padding-left: 1rem;
+   width: 68%;
+   height: 2.5rem;
+   padding-left: 1rem;
 }
 </style>
