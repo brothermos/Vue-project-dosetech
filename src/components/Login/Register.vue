@@ -83,16 +83,24 @@
          <div class="form-style">
             <label>วันเกิด <span class="text-danger">*</span></label>
             <div class="birthday-date">
-               <select name="day" id="day" v-model="form.day">
+               <select name="day" id="day" v-model="form.day" ref="month">
                   <option value="0">วัน</option>
-                  <option v-for="(day, index) in 31" :key="index">
-                     {{ day }}
+                  <option
+                     v-for="(day, index) in list.day"
+                     :key="index"
+                     :value="day"
+                  >
+                     {{ day.text }}
                   </option>
                </select>
                <select name="month" id="month" v-model="form.month">
                   <option value="0">เดือน</option>
-                  <option v-for="(month, index) in 12" :key="index">
-                     {{ month }}
+                  <option
+                     v-for="(month, index) in list.month"
+                     :key="index"
+                     :disabled="form.day.value > month.days && month.days != 0"
+                  >
+                     {{ month.text }}
                   </option>
                </select>
                <select name="year" id="year" v-model="form.year">
@@ -141,16 +149,13 @@
 
          <!--ปุ่มลงทะเบียน-->
          <div class="form-style">
-            <b-button
-               >ลงทะเบียน</b-button
-            >
+            <b-button>ลงทะเบียน</b-button>
             <div class="register-container">
                <b-form-text>เป็นสมาชิกแล้ว?</b-form-text>
                <router-link to="/login">เข้าสู่ระบบ</router-link>
             </div>
          </div>
       </form>
-      
    </div>
 </template>
 
@@ -171,7 +176,6 @@ const passwordRegex = helpers.regex(
    /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 ); // import Error from "../Error/Error.vue";
 
-
 export default {
    name: "Register",
    components: {
@@ -185,11 +189,61 @@ export default {
          password: "",
          password_confirm: "",
          gender: "man",
-         day: "0",
-         month: "0",
-         year: "0",
+         day: { value: 0, text: "00" },
+         month: { value: 0, text: "00", days: 0 },
+         year: { value: 0, text: "year" },
          birthday: "",
          telephone: "",
+      },
+      list: {
+         day: [
+            { value: 1, text: "01" },
+            { value: 2, text: "02" },
+            { value: 3, text: "03" },
+            { value: 4, text: "04" },
+            { value: 5, text: "05" },
+            { value: 6, text: "06" },
+            { value: 7, text: "07" },
+            { value: 8, text: "08" },
+            { value: 9, text: "09" },
+            { value: 10, text: "10" },
+            { value: 11, text: "11" },
+            { value: 12, text: "12" },
+            { value: 13, text: "13" },
+            { value: 14, text: "14" },
+            { value: 15, text: "15" },
+            { value: 16, text: "16" },
+            { value: 17, text: "17" },
+            { value: 18, text: "18" },
+            { value: 19, text: "19" },
+            { value: 20, text: "20" },
+            { value: 21, text: "21" },
+            { value: 22, text: "22" },
+            { value: 23, text: "23" },
+            { value: 24, text: "24" },
+            { value: 25, text: "25" },
+            { value: 26, text: "26" },
+            { value: 27, text: "27" },
+            { value: 28, text: "28" },
+            { value: 29, text: "29" },
+            { value: 30, text: "30" },
+            { value: 31, text: "31" },
+         ],
+         month: [
+            { value: 1, text: "01", days: 31 },
+            { value: 2, text: "02", days: 29 },
+            { value: 3, text: "03", days: 31 },
+            { value: 4, text: "04", days: 30 },
+            { value: 5, text: "05", days: 31 },
+            { value: 6, text: "06", days: 30 },
+            { value: 7, text: "07", days: 31 },
+            { value: 8, text: "08", days: 31 },
+            { value: 9, text: "09", days: 30 },
+            { value: 10, text: "10", days: 31 },
+            { value: 11, text: "11", days: 30 },
+            { value: 12, text: "12", days: 31 },
+         ],
+         year: [{ value: 0, text: "year" }],
       },
       options: [
          { text: "ชาย", value: "man" },
@@ -214,6 +268,10 @@ export default {
             sameAsPassword: sameAs("password"),
             passwordRegex,
          },
+         day: { required },
+         month: { required },
+         year: { required },
+
          status: {
             required,
          },
@@ -245,15 +303,37 @@ export default {
       // fucntion ปี
       getYear() {
          let year = [];
-         for (let i = 1950; i <= 2022; i++) {
+         for (let i = 1950; i <= 2021; i++) {
             year.push(i);
          }
          // console.log(year);
          return year;
       },
 
-      
+      //   handleChangeDay(val) {
+      //      if (val.value > this.form.month.days)
+      //         this.form.month = { value: 0, text: "00", days: 0 };
 
+      //      if (
+      //         val.value == 29 &&
+      //         this.form.month.value == 2 &&
+      //         (this.form.year.value % 4 == 0 &&
+      //            !this.form.year.value % 100 == 0 &&
+      //            !this.form.year.value % 400 == 0) == false
+      //      )
+      //         this.form.year = { value: 0, text: "year" };
+      //   },
+
+      //   handleChangeMonth(val) {
+      //      if (
+      //         this.form.day.value == 29 &&
+      //         val.value == 2 &&
+      //         (this.form.year.value % 4 == 0 &&
+      //            !this.form.year.value % 100 == 0 &&
+      //            !this.form.year.value % 400 == 0) == false
+      //      )
+      //         this.form.year = { value: 0, text: "year" };
+      //   },
       //alert success register
       makeToast(variant = null) {
          this.$bvToast.toast("Register", {
