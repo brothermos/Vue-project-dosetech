@@ -56,7 +56,7 @@
                      <textarea
                         name=""
                         id=""
-                        cols="88%"
+                        cols="85%"
                         rows="10"
                         placeholder="รายละเอียดที่อยู่"
                         v-model="form.street"

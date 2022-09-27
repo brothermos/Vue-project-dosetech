@@ -130,6 +130,11 @@
                ยอมรับข้อกำหนดและเงื่อนไขในการใช้งาน
                <a href="">เพิ่มเติม</a>
             </b-form-checkbox>
+            <span
+               v-if="!$v.form.status.required && $v.form.status.$dirty"
+               class="text-danger"
+               >โปรดยอมรับเงื่อนไข</span
+            >
          </div>
 
          <!--ปุ่มลงทะเบียน-->
@@ -147,8 +152,11 @@
 <script>
 import { UilTimes } from "@iconscout/vue-unicons";
 import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
+// import { helpers } from "vuelidate/lib/validators";
 import { UserApiService } from "@/services/user-api.service";
 import moment from "moment";
+
+// const alpha = helpers.regex("alpha", /^([a-zA-Z0-9@*#]{6,15})$/);
 // import Error from "../Error/Error.vue";
 export default {
    name: "Register",
@@ -184,6 +192,7 @@ export default {
          },
          password: {
             required,
+            // alpha,
             minLength: minLength(6),
          },
          password_confirm: {
@@ -197,8 +206,7 @@ export default {
    },
    methods: {
       async submitForm() {
-
-        // format ค่าวันเกิด
+         // format ค่าวันเกิด
          const birthday = moment(
             this.form.day + "/" + this.form.month + 1 + "/" + this.form.year,
             "D/M/YYYY"
@@ -226,6 +234,15 @@ export default {
          }
          // console.log(year);
          return year;
+      },
+   },
+   created() {
+      this.submitted = true;
+      return this.$v.$touch();
+   },
+   computed: {
+      isDisabled() {
+         return this.$v.$invalid;
       },
    },
 };
