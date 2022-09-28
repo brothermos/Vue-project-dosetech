@@ -146,6 +146,7 @@ import { required, minLength, email, sameAs, helpers } from "vuelidate/lib/valid
 import { UserApiService } from "@/services/user-api.service";
 import moment from "moment";
 import dayjs from "dayjs";
+
 const passwordRegex = helpers.regex("password", /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/); // import Error from "../Error/Error.vue";
 
 export default {
@@ -180,6 +181,7 @@ export default {
             const maxMonth = 12;
             const months = Array.from(Array(maxMonth).keys()).map((item) => {
                 const value = item + 1;
+                //เช็คว่าถ้าน้อยกว่า 10 ให้ใส่ 0 นำหน้า
                 const text = value < 10 ? `0${value}` : value;
 
                 return { value, text };
@@ -197,7 +199,6 @@ export default {
             const days = Array.from(Array(daysInMonth).keys()).map((item) => {
                 const value = item + 1;
 
-                //เช็คว่าถ้าน้อยกว่า 10 ให้ใส่ 0 นำหน้า
                 const text = value < 10 ? `0${value}` : value;
 
                 return { value, text };
@@ -236,9 +237,15 @@ export default {
                 minLength: minLength(6),
                 passwordRegex,
             },
-            day: { required },
-            month: { required },
-            year: { required },
+            day: {
+                required,
+            },
+            month: {
+                required,
+            },
+            year: {
+                required,
+            },
             status: {
                 required,
             },
@@ -264,7 +271,7 @@ export default {
 
             //alert success
             this.$bvModal.show("success-modal");
-            
+
             //ยิง axios
             // await this.userApiService.register(this.form);
             // this.$router.push("/login");
@@ -317,7 +324,6 @@ export default {
 * {
     box-sizing: border-box;
 }
-
 
 .container {
     margin-top: 140px;
